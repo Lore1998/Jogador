@@ -1,0 +1,51 @@
+create database brasileirao;
+use brasileirao;
+
+create table Clube (id int primary key auto_increment, nome varchar(255),sigla varchar(3),escudo varchar(255));
+create table Jogadores( id int primary key auto_increment, nome varchar (255), numero_da_camisa varchar (3));
+create table Estadios( id int primary key auto_increment,nome varchar (255), cidade varchar (255));
+create table Jogo(id bigint primary key auto_increment, id_mandante bigint, id_visitante bigint);
+create table Rodada(id_rodada bigint primary key auto_increment, descricao varchar (100), id_placar bigint primary key auto_increment, dt_jogo timestamp, gol_mandante int, gol_visitante int);
+
+alter table Jogo add column campeonato_id bigint;
+alter table Jogo add column estadio_id bigint;
+alter table Jogo add column mandante_id bigint;
+alter table Jogo add column visitante_id bigint;
+alter table Jogadores add column clube_id bigint;
+
+
+alter table Jogo add constraint fk_estadio_id foreign key (estadio_id) references Estadios(id)
+on delete no action on update no action;
+
+alter table Jogo add constraint fk_mandante_id foreign key (mandante_id) references Clubes(id)
+on delete no action on update no action;
+
+alter table Jogadores add constraint fk_clube_id foreign key (Clube_id) references Clubes(id)
+on delete no action on update no action;
+
+alter table Jogos add constraint fk_visitante_id foreign key (visitante_id) references Clubes(id)
+on delete no action on update no action;
+
+alter table Jogos add constraint  fk_mandante_id foreign key (mandante_id) references Clubes(id)
+on delete no action on update no action;
+
+alter table Jogos add constraint fk_visitante_id foreign key (visitante_id) references Clubes(id)
+on delete no action on update no action;
+
+alter table Jogos add constraint fk_rodada_id foreign key (rodada_id) references Rodada(id)
+on delete no action on update no action;
+
+
+insert into clube (id_clube, nome, sigla, escudo)values
+('1','Fluminense','FLU','globoesporte.com/clubes/escudos/flu.svg'),
+('2','Palmeiras','PAL','globoesporte.com/clubes/escudos/pal.svg');
+
+insert into estadio (id_estadio, nome_id, id_rodada, descricao_id, horario_id) values 
+('7','Maracanã','1','Rodada 30','16:00:00');
+
+insert into jogadores(id,nome_id,numero_camisa_id,cartao_amarelo_id,cartao_vermelho_id,gols_id,clube_id) values 
+('20','Kleberson_Silva','12','2','1','8','1'),
+('35','Marcelo_Crivela','10','2','1','0','2');
+
+insert into partidas (id,mandante_id,visitante_id,gols_mandante_id,gols_visitante_id) values 
+                     ('5','1','2','0','1');
